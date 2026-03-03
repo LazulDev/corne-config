@@ -31,16 +31,16 @@
     };
 };
 
+/* Trackpad temporarily disabled — re-enable together with Kconfig pointing options */
 &tps43_split {
-    device = <&tps43>;
+    status = "disabled";
 };
 
 
 &pro_micro_i2c {
     status = "okay";
-    //this needs to be checked
     tps43: iqs5xx@74 {
-        status = "okay";
+        status = "disabled";
         compatible = "azoteq,iqs5xx";
         reg = <0x74>;
 
