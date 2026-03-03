@@ -3,6 +3,6 @@ firmware/
 build/
 .west/
 modules/
-zephyr/
 zmk/
+optional/
 zmk-driver-azoteq-iqs5xx/
