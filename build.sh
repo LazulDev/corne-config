@@ -2,9 +2,8 @@
 set -e
 
 IMAGE="zmkfirmware/zmk-dev-arm:stable"
-CONFIG_DIR="/workspace"
-BUILD_DIR="/tmp/zmk-build"
-OUTPUT_DIR="/workspace/firmware"
+WORK_DIR="/tmp/zmk-workspace"
+OUTPUT_DIR="/output"
 
 # Targets to build
 TARGETS=(
@@ -32,17 +31,18 @@ for target in "${TARGETS[@]}"; do
   echo ">>> Building $SHIELD..."
 
   docker run --rm \
-    -v "$(pwd):$CONFIG_DIR" \
-    -w "$CONFIG_DIR" \
+    -v "$(pwd)/config:/config:ro" \
+    -v "$(pwd)/firmware:$OUTPUT_DIR" \
     "$IMAGE" \
     bash -c "
-      west init -l config 2>/dev/null || true
-      west update
-      west build -s zmk/app -d $BUILD_DIR -b nice_nano/nrf52840 -p -- \
+      cp -r /config $WORK_DIR
+      cd $WORK_DIR && west init -l . 2>/dev/null || true
+      cd $WORK_DIR && west update
+      west build -s zmk/app -d /tmp/build -b nice_nano/nrf52840 -p -- \
         -DSHIELD=$SHIELD \
         $SNIPPET_ARG \
-        -DZMK_CONFIG=$CONFIG_DIR/config
-      cp $BUILD_DIR/zephyr/zmk.uf2 $OUTPUT_DIR/$SHIELD.uf2
+        -DZMK_CONFIG=$WORK_DIR
+      cp /tmp/build/zephyr/zmk.uf2 $OUTPUT_DIR/$SHIELD.uf2
     "
 
   echo ">>> $SHIELD done: firmware/$SHIELD.uf2"

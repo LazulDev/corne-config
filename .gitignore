@@ -1,7 +1,8 @@
 .idea
 firmware/
-.west
-modules
-zephyr
-zmk
-zmk-driver-azoteq-iqs5xx
+build/
+.west/
+modules/
+zephyr/
+zmk/
+zmk-driver-azoteq-iqs5xx/
