@@ -21,14 +21,6 @@ Custom ZMK firmware for a Corne 42-key split keyboard with trackpad.
 
 The firmware is built automatically via GitHub Actions on push. Download the `.uf2` artifacts from the [Actions tab](../../actions).
 
-### Local Build
-
-Requires Docker. Run:
-
-```bash
-./build.sh
-```
-
 The `.uf2` files will be generated in `./firmware/`.
 
 ### Flashing
