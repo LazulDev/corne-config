@@ -21,14 +21,6 @@ Custom ZMK firmware for a Corne 42-key split keyboard with trackpad.
 
 The firmware is built automatically via GitHub Actions on push. Download the `.uf2` artifacts from the [Actions tab](../../actions).
 
-### Flashing
-
-1. Connect a half via USB
-2. Double-click the nice!nano reset button to enter bootloader (appears as USB drive)
-3. Drag the corresponding `.uf2` file to the drive
-
-Flash order for pairing: right half first, then left half.
-
 ### Local Build
 
 Requires Docker. Run:
@@ -38,6 +30,16 @@ Requires Docker. Run:
 ```
 
 The `.uf2` files will be generated in `./firmware/`.
+
+### Flashing
+
+1. Connect a half via USB
+2. Double-click the nice!nano reset button to enter bootloader (appears as USB drive)
+3. Drag the corresponding `.uf2` file to the drive
+
+Flash order for pairing: right half first, then left half.
+
+
 
 ### Settings Reset
 
