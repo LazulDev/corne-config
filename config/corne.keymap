@@ -17,15 +17,63 @@
 #define HOTKEY  3
 
 / {
+
+    macros {
+        // Option+E (dead acute), then the vowel → á é í ó ú
+        ac_vowel: ac_vowel {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings
+                = <&macro_press &kp LALT>
+                , <&macro_tap &kp E>
+                , <&macro_release &kp LALT>
+                , <&macro_param_1to1>
+                , <&macro_tap &kp A>;  // placeholder replaced by param
+        };
+
+        // Option+N (dead tilde), then N → ñ
+        ac_n: ac_n {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            bindings
+                = <&macro_press &kp LALT>
+                , <&macro_tap &kp N>
+                , <&macro_release &kp LALT>
+                , <&macro_tap &kp N>;
+        };
+    };
+
+    behaviors {
+        // hold = vocal acentuada, tap = vocal normal
+        ht_accent: ht_accent {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <250>;
+            require-prior-idle-ms = <150>;
+            flavor = "tap-preferred";
+            bindings = <&ac_vowel>, <&kp>;
+        };
+
+        // hold = ñ, tap = n
+        ht_n: ht_n {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <250>;
+            require-prior-idle-ms = <150>;
+            flavor = "tap-preferred";
+            bindings = <&ac_n>, <&kp>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
         default_layer {
             bindings = <
-&kp ESCAPE  &kp Q  &kp W  &kp E  &kp R  &kp T    &kp Y      &kp U      &kp I       &kp O    &kp P     &mt LC(BSPC) BSPC
-&kp TAB     &kp A  &kp S  &kp D  &kp F  &kp G    &kp H      &kp J      &kp K       &kp L    &kp SEMI  &kp SQT
-&kp LSHIFT  &kp Z  &kp X  &kp C  &kp V  &kp B    &kp N      &kp M      &kp COMMA   &kp DOT  &kp FSLH  &kp RSHFT
-                          &mo 3  &mo 2  &mo 1    &kp ENTER  &kp SPACE  &kp ESCAPE
+&kp ESCAPE     &kp Q  &kp W  &ht_accent E E  &kp R  &kp T    &kp Y      &ht_accent U U  &ht_accent I I  &ht_accent O O  &kp P     &mt LC(BSPC) BSPC
+&kp TAB        &ht_accent A A &kp S  &kp D  &kp F  &kp G    &kp H      &kp J           &kp K           &kp L           &kp SEMI  &kp SQT
+&kp LSHIFT     &kp Z  &kp X  &kp C  &kp V  &kp B    &ht_n 0 N  &kp M           &kp COMMA       &kp DOT         &kp FSLH  &kp RSHFT
+                              &mo 3  &mo 2  &mo 1    &kp ENTER  &kp SPACE       &kp ESCAPE
             >;
         };
 
